@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: delivery-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/delivery_db
+    username: admin
+    password: hoff
+    driver-class-name: org.postgresql.Driver
