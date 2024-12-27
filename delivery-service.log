@@ -1,1 +1,6 @@
 1735225669345:create --courierX 10.5 --courierY 20.3 --firstAddress "переулок Нечистой Силы" --secondAddress "переулок Молочный, быв. Молочный переулок" --thirdAddress "улица При кольная"
+1735290347728:create --courierX 110.5 --courierY 120.3 --firstAddress "переулок Нечистой Силы" --secondAddress "переулок Молочный, быв. Молочный переулок" --thirdAddress "улица При кольная"
+1735290431980:create --courierX 103.5 --courierY 103.3 --firstAddress "переулок Нечистой Силы" --secondAddress "переулок Молочный, быв. Молочный переулок" --thirdAddress "улица При кольная"
+1735292706558:create --courierX 103.5 --courierY 103.3 --firstAddress "переулок Нечистой" --secondAddress "переулок Молочный, быв. Молочный переулок" --thirdAddress "улица При кольная"
+1735292747500:create --courierX 103.5 --courierY 103.3 --firstAddress "переулок Нечистой Силы" --secondAddress "переулок Молочный, быв. Молочный переулок" --thirdAddress "улица При кольная"
+1735292774969:create --courierX 103.5 --courierY 103.3 --firstAddress "переулок Нечистой Силы" --secondAddress "переулок Молочный, быв. Молочный переулок" --thirdAddress "улица При"

@@ -3,6 +3,7 @@ package ru.liga.deliveryservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+import ru.liga.deliveryservice.formatter.DeliveryFormatter;
 import ru.liga.deliveryservice.mapper.CourierPositionMapper;
 import ru.liga.deliveryservice.mapper.DeliveryMapper;
 import ru.liga.deliveryservice.model.dto.request.DeliveryRequestDto;
@@ -19,13 +20,20 @@ public class DeliveryController {
     private final CourierPositionMapper courierPositionMapper;
     private final DeliveryMapper deliveryMapper;
     private final DeliveryService deliveryService;
+    private final DeliveryFormatter deliveryFormatter;
 
     @ShellMethod()
-    public DeliveryResponseDto create(Double courierX, Double courierY, String firstAddress, String secondAddress, String thirdAddress) {
-        CourierPosition currentPosition = courierPositionMapper.mapFromPointsToEntity(courierX, courierY);
-        DeliveryRequestDto deliveryRequestDto = deliveryMapper.mapFromParamsToDto(currentPosition,
-                List.of(firstAddress, secondAddress, thirdAddress));
+    public String create(Double courierX, Double courierY, String firstAddress, String secondAddress, String thirdAddress) {
+        try {
+            CourierPosition currentPosition = courierPositionMapper.mapFromPointsToEntity(courierX, courierY);
+            DeliveryRequestDto deliveryRequestDto = deliveryMapper.mapFromParamsToDto(currentPosition,
+                    List.of(firstAddress, secondAddress, thirdAddress));
 
-        return deliveryService.create(deliveryRequestDto);
+            DeliveryResponseDto deliveryResponseDto = deliveryService.create(deliveryRequestDto);
+
+            return deliveryFormatter.formatToResponse(deliveryResponseDto);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 }
