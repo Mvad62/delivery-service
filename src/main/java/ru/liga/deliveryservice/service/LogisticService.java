@@ -14,17 +14,16 @@ public class LogisticService {
     public List<Address> createShortestRoute(CourierPosition currentPosition, List<Address> addresses) {
         List<Address> route = new ArrayList<>();
 
-        CourierPosition current = currentPosition;
-
         List<Address> remainingAddresses = new ArrayList<>(addresses);
 
         while (!remainingAddresses.isEmpty()) {
-            Address nearestAddress = findNearestAddress(current, remainingAddresses);
+            Address nearestAddress = findNearestAddress(currentPosition, remainingAddresses);
 
             route.add(nearestAddress);
 
-            current = new CourierPosition(nearestAddress.getX(), nearestAddress.getY());
+            currentPosition = new CourierPosition(nearestAddress.getX(), nearestAddress.getY());
 
+            //эт дропнем
             remainingAddresses.remove(nearestAddress);
         }
 
