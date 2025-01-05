@@ -1,12 +1,13 @@
 package ru.liga.deliveryservice.repository;
 
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -18,21 +19,20 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 // Тож сами пишут по идее
-@TestPropertySource("classpath:application-test.yml")
 @SpringBootTest(properties = "spring.profiles.active=test")
 @ExtendWith(SpringExtension.class)
 @Testcontainers
 class AddressRepositoryTest {
 
     @Container
-    public static PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:17.1")
+    static PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:17.1")
             .withExposedPorts(5432)
             .withDatabaseName("delivery_db_test")
             .withUsername("admin_test")
             .withPassword("hoff_test");
 
     @Autowired
-    private AddressRepository addressRepository;
+    AddressRepository addressRepository;
 
     @DynamicPropertySource
     static void dynamicProperties(DynamicPropertyRegistry registry) {
@@ -41,14 +41,14 @@ class AddressRepositoryTest {
     }
 
     @Test
-    void testFindByName() {
+    void findByName_withValidInput_shouldReturnValidOutput() {
         Optional<Address> address = addressRepository.findByName("переулок Нечистой Силы");
-
         assertThat(address.isPresent()).isTrue();
     }
 
     @Test
-    void testSave() {
+    @DisplayName("Тестировал, что не добавляется в продовую бд, а добавляется в тест контейнер")
+    void save_withValidInput_shouldReturnValidOutput() {
         Address address = new Address();
         Address savedAddress = addressRepository.save(address);
         assertThat(savedAddress.getId()).isNotNull();

@@ -39,7 +39,7 @@ class DeliveryControllerTest {
     DeliveryService deliveryService;
 
     @Test
-    void create_shouldReturnValidResponse_withValidRequest() throws Exception {
+    void create_withValidRequest_shouldReturnValidResponse() throws Exception {
         Double courierX = 10.0;
         Double courierY = 20.0;
         List<String> addresses = List.of("Address1", "Address2", "Address3");

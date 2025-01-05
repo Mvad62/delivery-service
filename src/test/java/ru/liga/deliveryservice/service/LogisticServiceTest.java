@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class LogisticServiceTest {
 
     @Test
-    public void shouldCreateShortestRoute() {
+    public void createShortestRoute_withValidInput_shouldReturnValidShortestRoute() {
         LogisticService logisticService = new LogisticService();
         CourierPosition courierPosition = new CourierPosition(0.0, 0.0);
         AddressResponseDto address1 = new AddressResponseDto("Address1", 2.0, 2.0);

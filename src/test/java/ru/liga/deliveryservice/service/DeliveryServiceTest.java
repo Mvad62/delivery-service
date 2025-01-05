@@ -17,7 +17,10 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.doCallRealMethod;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -39,7 +42,7 @@ public class DeliveryServiceTest {
     private DeliveryService deliveryService;
 
     @Test
-    void create_shouldReturnDeliveryResponseDto_whenValidRequest() {
+    void create_withValidRequest_shouldReturnValidResponse() {
         Double courierX = 10.0;
         Double courierY = 20.0;
         List<String> addresses = List.of("Address1", "Address2", "Address3");
@@ -76,7 +79,7 @@ public class DeliveryServiceTest {
     }
 
     @Test
-    void create_shouldThrowException_whenAddressServiceFails() {
+    void create_withNonExistenceAddress_shouldThrowAddressNotFoundException() {
         Double courierX = 10.0;
         Double courierY = 20.0;
         List<String> addresses = List.of("Non Existence", "Address2", "Address3");
@@ -84,11 +87,12 @@ public class DeliveryServiceTest {
         CourierPosition courierPosition = new CourierPosition(courierX, courierY);
         DeliveryRequestDto requestDto = new DeliveryRequestDto(courierPosition, addresses);
 
-        when(addressService.findAll(addresses)).thenThrow(new AddressNotFoundException(String.format("Адрес с названием %s не найден", "Non Existence")));
+        when(addressService.findAll(addresses)).thenThrow(new AddressNotFoundException(String.format("Адрес с названием %s не найден", addresses.get(0))));
 
         assertThatThrownBy(() -> deliveryService.create(requestDto))
                 .isInstanceOf(AddressNotFoundException.class);
 
         verify(addressService).findAll(addresses);
+        verify(logisticService, never()).createShortestRoute(any(CourierPosition.class), anyList());
     }
 }

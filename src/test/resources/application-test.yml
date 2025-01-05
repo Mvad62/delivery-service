@@ -13,7 +13,3 @@ spring:
     user: admin_test
     password: hoff_test
     locations: classpath:db/migration
-
-  config:
-    activate:
-      on-profile: test

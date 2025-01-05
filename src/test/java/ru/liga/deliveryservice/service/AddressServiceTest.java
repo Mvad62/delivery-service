@@ -39,7 +39,7 @@ class AddressServiceTest {
     private AddressService addressService;
 
     @Test
-    void shouldFindAllAddressesSuccessfully() {
+    void findByName_withValidInput_shouldReturnAllAddresses() {
         String addressName1 = "Address1";
         String addressName2 = "Address2";
 
@@ -67,7 +67,7 @@ class AddressServiceTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenAddressNotFound() {
+    void findByName_withNonExistenceAddress_shouldThrowAddressNotFoundException() {
         String missingAddressName = "MissingAddress";
         when(addressRepository.findByName(missingAddressName)).thenReturn(Optional.empty());
 
