@@ -7,3 +7,6 @@ spring:
     username: admin
     password: hoff
     driver-class-name: org.postgresql.Driver
+
+  flyway:
+    locations: classpath:db/migration

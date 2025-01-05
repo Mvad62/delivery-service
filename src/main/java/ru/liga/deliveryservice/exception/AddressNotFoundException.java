@@ -1,7 +1,10 @@
 package ru.liga.deliveryservice.exception;
 
-public class AddressNotFoundException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+public class AddressNotFoundException extends ResponseStatusException {
     public AddressNotFoundException(String message) {
-        super(message);
+        super(HttpStatus.NOT_FOUND, message);
     }
 }

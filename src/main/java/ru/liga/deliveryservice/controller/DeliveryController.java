@@ -1,39 +1,25 @@
 package ru.liga.deliveryservice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.shell.standard.ShellComponent;
-import org.springframework.shell.standard.ShellMethod;
-import ru.liga.deliveryservice.formatter.DeliveryFormatter;
-import ru.liga.deliveryservice.mapper.CourierPositionMapper;
-import ru.liga.deliveryservice.mapper.DeliveryMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import ru.liga.deliveryservice.model.dto.request.DeliveryRequestDto;
 import ru.liga.deliveryservice.model.dto.response.DeliveryResponseDto;
-import ru.liga.deliveryservice.model.entity.CourierPosition;
 import ru.liga.deliveryservice.service.DeliveryService;
 
-import java.util.List;
-
-@ShellComponent
+@RestController
 @RequiredArgsConstructor
 public class DeliveryController {
 
-    private final CourierPositionMapper courierPositionMapper;
-    private final DeliveryMapper deliveryMapper;
     private final DeliveryService deliveryService;
-    private final DeliveryFormatter deliveryFormatter;
 
-    @ShellMethod()
-    public String create(Double courierX, Double courierY, String firstAddress, String secondAddress, String thirdAddress) {
-        try {
-            CourierPosition currentPosition = courierPositionMapper.mapFromPointsToEntity(courierX, courierY);
-            DeliveryRequestDto deliveryRequestDto = deliveryMapper.mapFromParamsToDto(currentPosition,
-                    List.of(firstAddress, secondAddress, thirdAddress));
-
-            DeliveryResponseDto deliveryResponseDto = deliveryService.create(deliveryRequestDto);
-
-            return deliveryFormatter.formatToResponse(deliveryResponseDto);
-        } catch (Exception e) {
-            return e.getMessage();
-        }
+    @PostMapping("/delivery")
+    public ResponseEntity<DeliveryResponseDto> create(@RequestBody @Validated DeliveryRequestDto deliveryRequestDto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(deliveryService.create(deliveryRequestDto));
     }
 }

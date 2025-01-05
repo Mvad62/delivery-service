@@ -1,7 +1,7 @@
 package ru.liga.deliveryservice.service;
 
 import org.springframework.stereotype.Service;
-import ru.liga.deliveryservice.model.entity.Address;
+import ru.liga.deliveryservice.model.dto.response.AddressResponseDto;
 import ru.liga.deliveryservice.model.entity.CourierPosition;
 
 import java.util.ArrayList;
@@ -11,30 +11,30 @@ import java.util.List;
 @Service
 public class LogisticService {
 
-    public List<Address> createShortestRoute(CourierPosition currentPosition, List<Address> addresses) {
-        List<Address> route = new ArrayList<>();
+    public List<AddressResponseDto> createShortestRoute(CourierPosition courierPosition, List<AddressResponseDto> addresses) {
+        List<AddressResponseDto> route = new ArrayList<>();
 
-        List<Address> remainingAddresses = new ArrayList<>(addresses);
+        List<AddressResponseDto> remainingAddresses = new ArrayList<>(addresses);
 
         while (!remainingAddresses.isEmpty()) {
-            Address nearestAddress = findNearestAddress(currentPosition, remainingAddresses);
+            AddressResponseDto nearestAddress = findNearestAddress(courierPosition, remainingAddresses);
 
             route.add(nearestAddress);
 
-            currentPosition = new CourierPosition(nearestAddress.getX(), nearestAddress.getY());
+            courierPosition = new CourierPosition(nearestAddress.x(), nearestAddress.y());
 
-            //эт дропнем
+            // удалить для лабы
             remainingAddresses.remove(nearestAddress);
         }
 
         return route;
     }
 
-    private Address findNearestAddress(CourierPosition currentPosition, List<Address> addresses) {
+    private AddressResponseDto findNearestAddress(CourierPosition currentPosition, List<AddressResponseDto> addresses) {
         return addresses.stream()
                 .min(Comparator.comparingDouble(address -> calculateDistance(
                         currentPosition.x(), currentPosition.y(),
-                        address.getX(), address.getY())))
+                        address.x(), address.y())))
                 .orElseThrow(() -> new IllegalArgumentException("Список адресов не может быть пустым"));
     }
 
