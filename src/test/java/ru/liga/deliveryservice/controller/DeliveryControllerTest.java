@@ -7,7 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.liga.deliveryservice.container.AbstractIntegrationTest;
+import ru.liga.deliveryservice.container.AbstractPostgresContainer;
 import ru.liga.deliveryservice.model.dto.request.DeliveryRequestDto;
 import ru.liga.deliveryservice.model.dto.response.AddressResponseDto;
 import ru.liga.deliveryservice.model.dto.response.DeliveryResponseDto;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 // Сами пишут по идее
 @SpringBootTest(properties = "spring.profiles.active=test")
 @AutoConfigureMockMvc
-class DeliveryControllerTest extends AbstractIntegrationTest {
+class DeliveryControllerTest extends AbstractPostgresContainer {
 
     @Autowired
     MockMvc mockMvc;

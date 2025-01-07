@@ -1,7 +1,6 @@
 package ru.liga.deliveryservice.container;
 
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -38,7 +37,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Testcontainers
 @SpringBootTest(properties = "spring.profiles.active=test")
 @ExtendWith(SpringExtension.class)
-public abstract class AbstractIntegrationTest {
+public abstract class AbstractPostgresContainer {
 
     final static String POSTGRES_VERSION = "postgres:17.1";
     final static String DATABASE_NAME = "test_db";
