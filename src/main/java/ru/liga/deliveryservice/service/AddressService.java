@@ -6,7 +6,7 @@ import ru.liga.deliveryservice.exception.AddressNotFoundException;
 import ru.liga.deliveryservice.mapper.AddressMapper;
 import ru.liga.deliveryservice.model.dto.response.AddressResponseDto;
 import ru.liga.deliveryservice.model.entity.Address;
-import ru.liga.deliveryservice.repository.AddressRepository;
+import ru.liga.deliveryservice.container.AddressRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;

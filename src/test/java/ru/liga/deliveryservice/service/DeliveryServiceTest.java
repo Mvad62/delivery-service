@@ -12,6 +12,7 @@ import ru.liga.deliveryservice.model.dto.request.DeliveryRequestDto;
 import ru.liga.deliveryservice.model.dto.response.AddressResponseDto;
 import ru.liga.deliveryservice.model.dto.response.DeliveryResponseDto;
 import ru.liga.deliveryservice.model.entity.CourierPosition;
+import ru.liga.deliveryservice.service.formatter.AddressFormatter;
 
 import java.util.List;
 
@@ -25,21 +26,27 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-// Тут можно спринговые тесты, но баффа от них не будет, ток время теряем. spy() поставил на сервис логистики, ибо это логика, это важно
+// Будто когда есть интеграционный тест на контроллере - толку от интеграционного в сервисе, который вызовет контроллер = 0.
 @ExtendWith(MockitoExtension.class)
 public class DeliveryServiceTest {
 
     @Mock
-    private AddressService addressService;
-
-    @Spy
-    private LogisticService logisticService;
+    AddressService addressService;
 
     @Mock
-    private DeliveryMapper deliveryMapper;
+    LogisticService logisticService;
+
+    @Mock
+    DeliveryMapper deliveryMapper;
+
+    @Mock
+    AddressFormatter addressFormatter;
+
+    @Spy
+    MessageSendingService messageSendingService;
 
     @InjectMocks
-    private DeliveryService deliveryService;
+    DeliveryService deliveryService;
 
     @Test
     void create_withValidRequest_shouldReturnValidResponse() {
@@ -54,23 +61,23 @@ public class DeliveryServiceTest {
         AddressResponseDto address2 = new AddressResponseDto("Address2", 15.0, 25.0);
         AddressResponseDto address3 = new AddressResponseDto("Address3", 20.0, 30.0);
         List<AddressResponseDto> addressResponses = List.of(address1, address2, address3);
+        String routeString = address1.name() + "->" + address2.name() + "->" + address3.name();
 
         when(addressService.findAll(addresses)).thenReturn(addressResponses);
 
-        doCallRealMethod().when(logisticService).createShortestRoute(courierPosition, addressResponses);
+        when(logisticService.createShortestRoute(courierPosition, addressResponses)).thenReturn(addressResponses);
 
         List<AddressResponseDto> route = logisticService.createShortestRoute(courierPosition, addressResponses);
 
-        assertThat(route.get(0)).isEqualTo(address1);
-        assertThat(route.get(1)).isEqualTo(address2);
-        assertThat(route.get(2)).isEqualTo(address3);
+        when(addressFormatter.toString(route)).thenReturn(routeString);
+
+        doCallRealMethod().when(messageSendingService).send(routeString);
 
         DeliveryResponseDto expectedResponse = new DeliveryResponseDto(route);
         when(deliveryMapper.mapFromEntityToDto(route)).thenReturn(expectedResponse);
 
         DeliveryResponseDto actualResponse = deliveryService.create(requestDto);
 
-        assertThat(actualResponse).isNotNull();
         assertThat(actualResponse).isEqualTo(expectedResponse);
 
         verify(addressService).findAll(addresses);

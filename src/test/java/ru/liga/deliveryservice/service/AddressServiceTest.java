@@ -9,7 +9,7 @@ import ru.liga.deliveryservice.exception.AddressNotFoundException;
 import ru.liga.deliveryservice.mapper.AddressMapper;
 import ru.liga.deliveryservice.model.dto.response.AddressResponseDto;
 import ru.liga.deliveryservice.model.entity.Address;
-import ru.liga.deliveryservice.repository.AddressRepository;
+import ru.liga.deliveryservice.container.AddressRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,21 +21,17 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-// Тут будут ток мокито, спринговые сами по идее пишут
+// Будто когда есть интеграционный тест на контроллере - толку от интеграционного в сервисе, который вызовет контроллер = 0
 @ExtendWith(MockitoExtension.class)
-//@SpringBootTest
 class AddressServiceTest {
 
     @Mock
-//    @MockitoBean
     private AddressRepository addressRepository;
 
     @Mock
-//    @MockitoBean
     private AddressMapper addressMapper;
 
     @InjectMocks
-//    @Autowired
     private AddressService addressService;
 
     @Test

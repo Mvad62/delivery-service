@@ -1,15 +1,11 @@
 spring:
-  application:
-    name: delivery-service
-
   datasource:
-    url: jdbc:postgresql://localhost:${postgresContainer.getMappedPort(5432)}/delivery_db_test
-    username: admin_test
-    password: hoff_test
+    username: test_admin
+    password: test_password
     driver-class-name: org.postgresql.Driver
+    url: ${spring.datasource.url}
 
   flyway:
-    url: jdbc:postgresql://localhost:${postgresContainer.getMappedPort(5432)}/delivery_db_test
-    user: admin_test
-    password: hoff_test
-    locations: classpath:db/migration
+    locations: classpath:db/test-migration
+    user: test_admin
+    password: test_password

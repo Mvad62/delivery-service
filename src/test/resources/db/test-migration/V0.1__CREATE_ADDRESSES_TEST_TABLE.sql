@@ -1,0 +1,7 @@
+CREATE TABLE delivery.addresses
+(
+    id   BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255),
+    x    DOUBLE PRECISION,
+    y    DOUBLE PRECISION
+);
