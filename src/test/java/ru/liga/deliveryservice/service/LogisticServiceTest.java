@@ -8,11 +8,11 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-// тут чинят багулю
+// Надо убрать будто этот тест
 class LogisticServiceTest {
 
     @Test
-    public void createShortestRoute_withValidInput_shouldReturnValidShortestRoute() {
+    void createShortestRoute_withValidInput_shouldReturnValidShortestRoute() {
         LogisticService logisticService = new LogisticService();
         CourierPosition courierPosition = new CourierPosition(0.0, 0.0);
         AddressResponseDto address1 = new AddressResponseDto("Address1", 2.0, 2.0);

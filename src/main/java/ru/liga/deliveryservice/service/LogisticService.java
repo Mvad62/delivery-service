@@ -11,6 +11,8 @@ import java.util.List;
 @Service
 public class LogisticService {
 
+    private static final Double POWER = 2.0;
+
     public List<AddressResponseDto> createShortestRoute(CourierPosition courierPosition, List<AddressResponseDto> addresses) {
         List<AddressResponseDto> route = new ArrayList<>();
 
@@ -22,9 +24,6 @@ public class LogisticService {
             route.add(nearestAddress);
 
             courierPosition = new CourierPosition(nearestAddress.x(), nearestAddress.y());
-
-            // удалить для лабы
-            remainingAddresses.remove(nearestAddress);
         }
 
         return route;
@@ -39,6 +38,6 @@ public class LogisticService {
     }
 
     private double calculateDistance(Double x1, Double y1, Double x2, Double y2) {
-        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        return Math.sqrt(Math.pow(x2 - x1, POWER) + Math.pow(y2 - y1, POWER));
     }
 }

@@ -1,4 +1,4 @@
-package ru.liga.deliveryservice.container;
+package ru.liga.deliveryservice.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import ru.liga.deliveryservice.model.entity.Address;
