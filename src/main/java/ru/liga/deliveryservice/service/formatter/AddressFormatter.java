@@ -9,9 +9,11 @@ import java.util.stream.Collectors;
 @Service
 public class AddressFormatter {
 
+    private static final String DELIMITER = ", ";
+
     public String toString(List<AddressResponseDto> route) {
         return route.stream()
                 .map(AddressResponseDto::name)
-                .collect(Collectors.joining(" -> "));
+                .collect(Collectors.joining(DELIMITER));
     }
 }

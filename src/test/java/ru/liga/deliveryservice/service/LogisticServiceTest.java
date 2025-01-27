@@ -8,7 +8,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-// Надо убрать будто этот тест
 class LogisticServiceTest {
 
     @Test
